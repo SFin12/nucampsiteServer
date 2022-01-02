@@ -165,10 +165,10 @@ campsiteRouter
         Campsite.findById(req.params.campsiteId)
             .populate("comments.author")
             .then((campsite) => {
-                if (campsite && campsite.comments.id(req.params.campsiteId)) {
+                if (campsite && campsite.comments.id(req.params.commentId)) {
                     res.statusCode = 200;
                     res.setHeader("Content-Type", "application/json");
-                    res.json(campsite.comments.id(req.params.campsiteId));
+                    res.json(campsite.comments.id(req.params.commentId));
                 } else if (!campsite) {
                     err = new Error(
                         `Campsite ${req.params.campsiteId} not found`
@@ -194,7 +194,7 @@ campsiteRouter
     .put(authenticate.verifyUser, (req, res, next) => {
         Campsite.findById(req.params.campsiteId)
             .then((campsite) => {
-                if (campsite && campsite.comments.id(req.params.campsiteId)) {
+                if (campsite && campsite.comments.id(req.params.commentId)) {
                     if (req.body.rating) {
                         campsite.comments.id(req.params.commentId).rating =
                             req.body.rating;
@@ -230,7 +230,7 @@ campsiteRouter
     .delete(authenticate.verifyUser, (req, res, next) => {
         Campsite.findById(req.params.campsiteId)
             .then((campsite) => {
-                if (campsite && campsite.comments.id(req.params.campsiteId)) {
+                if (campsite && campsite.comments.id(req.params.commentId)) {
                     campsite.comments.id(req.params.commentId).remove();
                     campsite
                         .save()
