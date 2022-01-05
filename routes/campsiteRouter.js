@@ -230,6 +230,7 @@ campsiteRouter
                         req.params.commentId
                     ).author;
                     if (req.user._id.equals(commentAuthorId)) {
+                        console.log("You are the author");
                         if (req.body.rating) {
                             campsite.comments.id(req.params.commentId).rating =
                                 req.body.rating;
@@ -250,6 +251,7 @@ campsiteRouter
                             })
                             .catch((err) => next(err));
                     } else {
+                        console.log("Not the author");
                         const err = new Error("You're not the comment author");
                         err.status = 403;
                         return next(err);
@@ -290,6 +292,11 @@ campsiteRouter
                                 res.json(campsite);
                             })
                             .catch((err) => next(err));
+                    } else {
+                        console.log("Not the author");
+                        const err = new Error("You're not the comment author");
+                        err.status = 403;
+                        return next(err);
                     }
                 } else if (!campsite) {
                     err = new Error(
